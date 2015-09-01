@@ -1,14 +1,17 @@
-{"items": [
+[
   {
     "name": "Nike Air Max",
-    "price": 110
+    "price": 110,
+    "id": 1
   },
   {
     "name": "Puma something",
-    "price": 90
+    "price": 90,
+    "id": 2
   },
   {
     "name": "Matstar mente",
-    "price": 12
+    "price": 12,
+    "id": 3
   }
-]}
+]

@@ -1,18 +1,24 @@
 (function ($) {
     var app = $.sammy('#main', function () {
         this.get('#/', function (context) {
-            this.load('data/data.json')
+            this.redirect('#/items');
+        });
+
+        this.get('#/items', function (context) {
+            database.get()
                 .then(function (items) {
                     $.ajax({
                         url: 'partials/item.handlebars',
                         success: function (data) {
                             var template = Handlebars.compile(data);
-                            $('#main').html(template(items));
+                            var context = {
+                                items: items
+                            };
+                            $('#main').html(template(context));
                         }
                     });
-                    console.log(items);
                 })
-        })
+        });
     });
     
     $(function () {
