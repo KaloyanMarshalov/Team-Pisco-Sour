@@ -13,10 +13,14 @@ var database = (function () {
     }
 
     function getById(id) {
+        id = +id;
         var promise = new Promise(function (resolve, reject) {
            getAll().then(function (items) {
-               var item = items.find(function (item) {
-                   return item.id === id;
+               var item;
+               items.forEach(function (itemObj) {
+                   if (itemObj.id === id) {
+                       item = itemObj;
+                   }
                });
 
                if (item) {
@@ -24,7 +28,7 @@ var database = (function () {
                }
                else {
                    reject({
-                       message: 'No such item!'
+                       message: 'No such item!' + JSON.stringify(item)
                    });
                }
            });

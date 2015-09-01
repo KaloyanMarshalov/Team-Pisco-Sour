@@ -20,7 +20,7 @@
                 })
         });
         
-        this.get('#/items:id', function () {
+        this.get('#/items/:id', function () {
             var id = this.params.id;
             var item;
             database.getById(id)
