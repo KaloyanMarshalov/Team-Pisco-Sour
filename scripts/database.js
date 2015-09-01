@@ -1,5 +1,5 @@
 var database = (function () {
-    function get() {
+    function getAll() {
         var promise = new Promise(function (resolve, reject) {
             $.ajax({
                 url: 'data/data.json',
@@ -13,14 +13,31 @@ var database = (function () {
     }
 
     function getById(id) {
+        var promise = new Promise(function (resolve, reject) {
+           getAll().then(function (items) {
+               var item = items.find(function (item) {
+                   return item.id === id;
+               });
 
+               if (item) {
+                   resolve(item);
+               }
+               else {
+                   reject({
+                       message: 'No such item!'
+                   });
+               }
+           });
+        });
+
+        return promise;
     }
 
-    function save(obj) {
+    function save(item) {
 
     }
     return {
-        get: get,
+        getAll: getAll,
         getById: getById,
         save: save
     };

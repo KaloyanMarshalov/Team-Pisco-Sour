@@ -5,7 +5,7 @@
         });
 
         this.get('#/items', function (context) {
-            database.get()
+            database.getAll()
                 .then(function (items) {
                     $.ajax({
                         url: 'partials/item.handlebars',
@@ -19,6 +19,15 @@
                     });
                 })
         });
+        
+        this.get('#/items:id', function () {
+            var id = this.params.id;
+            var item;
+            database.getById(id)
+                .then(function (res) {
+                    //TODO: finish the getByID
+                });
+        })
     });
     
     $(function () {
