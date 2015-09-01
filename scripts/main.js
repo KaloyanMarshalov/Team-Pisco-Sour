@@ -1,7 +1,13 @@
 (function ($) {
     var app = $.sammy('#main', function () {
         this.get('#/', function (context) {
-            this.redirect('#/items');
+            //this.redirect('#/items');
+            $.ajax({
+                url: 'partials/home.html',
+                success: function (partial) {
+                    $('#main').html(partial);
+                }
+            })
         });
 
         this.get('#/items', function (context) {
