@@ -1,7 +1,9 @@
 <ul>
     {{#each items}}
     <li>
-        <h2>{{name}}</h2>
+        <h2>
+            <a href="#/items/{{id}}">{{name}}</a>
+        </h2>
         <p>{{price}}</p>
     </li>
     {{/each}}

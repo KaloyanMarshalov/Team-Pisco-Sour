@@ -27,8 +27,15 @@
             var id = this.params.id;
             var item;
             database.getById(id)
-                .then(function (res) {
-                    //TODO: finish the getByID
+                .then(function (dbItem) {
+                    item = dbItem;
+                    var template = templates.get('item');
+                    return template;
+                })
+                .then(function (templateHTML) {
+                    var template = Handlebars.compile(templateHTML);
+
+                    $('#main').html(template(item));
                 });
         })
     });
