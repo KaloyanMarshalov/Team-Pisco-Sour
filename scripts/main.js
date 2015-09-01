@@ -5,19 +5,22 @@
         });
 
         this.get('#/items', function (context) {
+            var items = {};
             database.getAll()
-                .then(function (items) {
-                    $.ajax({
-                        url: 'partials/item.handlebars',
-                        success: function (data) {
-                            var template = Handlebars.compile(data);
-                            var context = {
-                                items: items
-                            };
-                            $('#main').html(template(context));
-                        }
-                    });
+                .then(function (dbItems) {
+                    items = dbItems;
+                    var template = templates.get('items');
+                    return template;
                 })
+                .then(function (templateHTML) {
+                    var template = Handlebars.compile(templateHTML);
+                    //this is done so that you can do {{#each items}} in the template
+                    var templateContext = {
+                        items: items
+                    };
+
+                    $('#main').html(template(templateContext));
+                });
         });
         
         this.get('#/items/:id', function () {

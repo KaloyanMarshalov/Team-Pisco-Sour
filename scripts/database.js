@@ -28,7 +28,7 @@ var database = (function () {
                }
                else {
                    reject({
-                       message: 'No such item!' + JSON.stringify(item)
+                       message: 'No such item!'
                    });
                }
            });
