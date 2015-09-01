@@ -1,17 +1,20 @@
 [
   {
+    "id": 1,
     "name": "Nike Air Max",
     "price": 110,
-    "id": 1
+    "imgSource": "http://s3.amazonaws.com/nk_wp_media/uploads/2013/07/nike-airmax90-blackinfrared-01-537384-006.jpg"
   },
   {
+    "id": 2,
     "name": "Puma something",
     "price": 90,
-    "id": 2
+    "imgSource": "http://www.373puma.com/images/Puma-Maishumache-Casual-Red-White-M.jpg"
   },
   {
+    "id": 3,
     "name": "Matstar mente",
     "price": 12,
-    "id": 3
+    "imgSource": "http://www.endymarket.com/userfiles/productlargeimages/product_3487.jpg"
   }
 ]

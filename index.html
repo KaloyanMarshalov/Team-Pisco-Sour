@@ -2,21 +2,41 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>Webstore</title>
+    <title>E-store</title>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="styles/bootstrap-theme.css"/>
+    <link rel="stylesheet" href="styles/app.css"/>
 </head>
 <body>
-    <div id="wrapper">
-        <header id="header">
-            <h1>Welcome to our webapp!</h1>
-            <nav>
-                <ul>
-                    <li>
-                        <a href="#/">Home</a>
-                    </li>
-                    <li>
-                        <a href="#/items">Items</a>
-                    </li>
-                </ul>
+    <div class="container">
+        <header>
+            <div class="row page-header">
+                <div class="col-md-9">
+                    <h1 class="big">E-store</h1>
+                    <h2>Where the low prices are low</h2>
+                </div>
+                <div class="col-md-3">
+                    <img src="img/shopping_bag.png" class="img-responsive"/>
+                </div>
+            </div>
+            <nav class="navbar navbar-inverse">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="#/">E-store</a>
+                    </div>
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+                        <ul class="nav navbar-nav">
+                            <li><a href="#/">Home</a></li>
+                            <li><a href="#/items">Items</a></li>
+                        </ul>
+                    </div>
+                </div>
             </nav>
         </header>
         <main id="main">

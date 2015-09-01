@@ -1,4 +1,19 @@
-<div class="item">
-    <h2>{{name}}</h2>
-    <p>{{price}}</p>
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-md-2">
+            <h2>
+                <strong>Name: </strong>
+            </h2>
+            <p>
+                <strong>Price</strong>
+            </p>
+        </div>
+        <div class="col-md-5">
+            <h2 class="text-warning">{{name}}</h2>
+            <p class="text-success">{{price}} $</p>
+        </div>
+        <div class="col-md-5">
+            <img src="{{imgSource}}" class="img-responsive" alt=""/>
+        </div>
+    </div>
 </div>
