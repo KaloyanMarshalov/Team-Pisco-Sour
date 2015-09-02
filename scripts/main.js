@@ -2,12 +2,10 @@
     var app = $.sammy('#main', function () {
         this.get('#/', function () {
             //this.redirect('#/items');
-            $.ajax({
-                url: 'partials/home.html',
-                success: function (partial) {
-                    $('#main').html(partial);
-                }
-            })
+            templates.get('home')
+                .then(function(template){
+                    $('#main').html(template);
+                });
         });
 
         this.get('#/items', function () {
@@ -29,13 +27,10 @@
         });
 
         this.get('#/items/create', function () {
-            $.ajax({
-                url: 'partials/create.html',
-                success: function (partial) {
-                    $('#main').html(partial);
-                }
-            });
-            
+            templates.get('create')
+                .then(function(template){
+                    $('#main').html(template);
+                });
             $('#submit-button').on('click', function () {
                 //var name = $('#inputName').val(),
                 //    price = $('#inputName').val(),
