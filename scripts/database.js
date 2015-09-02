@@ -75,11 +75,63 @@ var database = (function () {
                 }
             })
         });
-        return promise
+        return promise;
     }
+
+    function createUser(account) {
+        var promise = new Promise(function (resolve, reject) {
+            var user = new Parse.User();
+            user.set("username", account.name);
+            user.set("password", account.password);
+
+            user.signUp(null, {
+                success: function (user) {
+                    resolve(account);
+                    // Hooray! Let them use the app now.
+                },
+                error: function (user, error) {
+                    // Show the error message somewhere and let the user try again.
+                    alert("Error: " + error.code + " " + error.message);
+                    reject();
+                }
+            });
+        });
+        return promise;
+
+    }
+
+    function logUser(account) {
+        console.log('hello');
+        var promise = new Promise(function (resolve, reject) {
+            Parse.User.logIn(account.name, account.password, {
+                success: function (user) {
+                    var currentUser = Parse.User.current();
+                    if (currentUser) {
+                        resolve(account);
+                        console.log(currentUser);
+                        console.log('WORKS');
+                    } else {
+                        // show the signup or login page
+                    }
+
+                    resolve();
+                },
+                error: function (user, error) {
+                    // The login failed. Check error to see why.
+                    console.log('Failed log in');
+                    alert("Error: " + error.code + " " + error.message);
+                    reject();
+                }
+            });
+        });
+        return promise;
+    }
+
     return {
         getAll: getAll,
         getById: getById,
-        save: save
+        save: save,
+        signUp: createUser,
+        signIn: logUser
     };
 }());
