@@ -32,13 +32,6 @@
                 .then(function(template){
                     $('#main').html(template);
                 });
-            $('#submit-button').on('click', function () {
-                //var name = $('#inputName').val(),
-                //    price = $('#inputName').val(),
-                //
-                console.log('hi');
-
-            })
         });
 
         this.get('#/items/:id', function () {
