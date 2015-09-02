@@ -28,7 +28,24 @@
                     $('#main').html(template(templateContext));
                 });
         });
-        
+
+        this.get('#/items/create', function () {
+            $.ajax({
+                url: 'partials/create.html',
+                success: function (partial) {
+                    $('#main').html(partial);
+                }
+            });
+            
+            $('#submit-button').on('click', function () {
+                //var name = $('#inputName').val(),
+                //    price = $('#inputName').val(),
+                //
+                console.log('hi');
+
+            })
+        });
+
         this.get('#/items/:id', function () {
             var id = this.params.id;
             var item;
@@ -43,7 +60,7 @@
 
                     $('#main').html(template(item));
                 });
-        })
+        });
     });
     
     $(function () {

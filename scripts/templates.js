@@ -1,6 +1,7 @@
 var templates = (function () {
     var cachedTemplates = {};
 
+    //TODO: make it possible to get html partials
     function get(templateName) {
         var promise = new Promise(function(resolve, reject) {
             if (cachedTemplates[templateName]) {
