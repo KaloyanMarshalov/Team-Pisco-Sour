@@ -1,12 +1,13 @@
 var database = (function () {
     Parse.initialize("ScOtySOfPiKIxOuM7WU5Huyx6whJFQAP1mNZjx2T", "qtR9xS9VmWmdu1aAlsYMrGXlVMM0Q38DyYCRZNNr");
+    //Parse.initialize("JkXEn9Qw4YUF5jfxhtBRtAPlnrbsgHfoSQajlJ5T", "bNmQ0X1xCSMkpfRq0JxCCYWLctPCpljxgMkhlu69");
 
     var Item = Parse.Object.extend('Item');
 
     function _mapItems (items) {
         var mappedItems = items.map(function (item) {
             var returnItem = {};
-            returnItem.id = item.id
+            returnItem.id = item.id;
             returnItem.name = item.get('name');
             returnItem.price = item.get('price');
             returnItem.imgSource = item.get('imgSource');
