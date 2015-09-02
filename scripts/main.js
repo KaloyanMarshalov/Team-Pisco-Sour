@@ -55,6 +55,15 @@
                 });
         });
 
+        this.get('#/cart', function () {
+            var cartItems = [];
+
+            templates.get('shopping-cart')
+                .then(function (template) {
+                    $('#main').html(template(cartItems));
+                })
+        })
+
         this.post('#/items', function () {
             var params = this.params;
 

@@ -1,0 +1,13 @@
+{{!-- Change    \/  this number for number of cols, than change the col-md-x appropriately --}}
+{{#grouped_each 3 this}}
+    <div class="row">
+        {{#each this}}
+            <div class="col-md-4">
+                <a href="#/items/{{id}}">
+                    <h2>{{name}}</h2>
+                    <img src="{{imgSource}}" class="img-responsive" alt="{{name}}"/>
+                </a>
+            </div>
+        {{/each}}
+    </div>
+{{/grouped_each}}
