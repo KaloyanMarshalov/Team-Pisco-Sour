@@ -1,5 +1,7 @@
 var templates = (function () {
-    var cachedTemplates = {};
+    var cachedTemplates = {},
+        handlebars=window.Handlebars||window.handlebars,
+        Handlebars=window.handlebars||window.Handlebars;
 
     //TODO: make it possible to get html partials
     function get(templateName) {
@@ -13,7 +15,8 @@ var templates = (function () {
 
             $.ajax({
                 url: url,
-                success: function (template) {
+                success: function (templateHtml) {
+                    var template=handlebars.compile(templateHtml);
                     cachedTemplates[templateName] = template;
                     resolve(template);
                 },

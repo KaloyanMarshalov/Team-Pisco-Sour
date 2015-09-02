@@ -18,8 +18,7 @@
                     var template = templates.get('items');
                     return template;
                 })
-                .then(function (templateHTML) {
-                    var template = Handlebars.compile(templateHTML);
+                .then(function (template) {
                     //this is done so that you can do {{#each items}} in the template
                     var templateContext = {
                         items: items
@@ -55,9 +54,7 @@
                     var template = templates.get('item');
                     return template;
                 })
-                .then(function (templateHTML) {
-                    var template = Handlebars.compile(templateHTML);
-
+                .then(function (template) {
                     $('#main').html(template(item));
                 });
         });
@@ -66,4 +63,4 @@
     $(function () {
         app.run('#/');
     })
-}(jQuery))
+}(jQuery));
