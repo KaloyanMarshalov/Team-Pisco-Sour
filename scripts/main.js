@@ -27,14 +27,12 @@
         });
 
         this.get('#/items/create', function () {
-<<<<<<< HEAD
             $.ajax({
                 url: 'partials/create.html',
                 success: function (partial) {
                     $('#main').html(partial);
                 }
             });
-=======
             templates.get('create')
                 .then(function(template){
                     $('#main').html(template);
@@ -46,7 +44,6 @@
                 console.log('hi');
 
             })
->>>>>>> ea97818c5cc20e9b9bb6fd4e823ff6bc2096429a
         });
 
         this.get('#/items/:id', function () {
@@ -63,7 +60,6 @@
                 });
         });
 
-<<<<<<< HEAD
         this.post('#/items', function () {
             var params = this.params;
 
@@ -77,14 +73,12 @@
             database.save(item);
             this.redirect('#/items');
         })
-=======
         this.get('#/login', function(){
             templates.get('login')
                 .then(function(template){
                     $('#main').html(template);
                 });
         });
->>>>>>> ea97818c5cc20e9b9bb6fd4e823ff6bc2096429a
     });
 
     $(function () {
