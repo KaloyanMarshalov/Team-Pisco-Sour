@@ -17,12 +17,7 @@
                     return template;
                 })
                 .then(function (template) {
-                    //this is done so that you can do {{#each items}} in the template
-                    var templateContext = {
-                        items: items
-                    };
-
-                    $('#main').html(template(templateContext));
+                    $('#main').html(template(items));
                 });
         });
 
