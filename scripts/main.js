@@ -49,12 +49,16 @@
         });
 
         this.get('#/cart', function () {
-            var cartItems = [];
+            var storageItemIds = localStorage.getItem('cartItems'),
+                parsedItemIds = JSON.parse(storageItemIds);
 
-            templates.get('shopping-cart')
-                .then(function (template) {
-                    $('#main').html(template(cartItems));
-                })
+            database.getByIds(parsedItemIds)
+                .then(function (cartItems) {
+                    templates.get('shopping-cart')
+                        .then(function (template) {
+                            $('#main').html(template(cartItems));
+                        })
+                });
         });
 
         this.post('#/items', function () {

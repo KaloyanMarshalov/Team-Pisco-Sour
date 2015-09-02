@@ -39,6 +39,7 @@ var database = (function () {
 
     function getById(id) {
         var promise = new Promise(function (resolve, reject) {
+            //TODO: refractor using Parse Queries
            getAll().then(function (items) {
                var item;
                items.forEach(function (itemObj) {
@@ -56,6 +57,24 @@ var database = (function () {
                    });
                }
            });
+        });
+
+        return promise;
+    }
+
+    function getByIds(idArray) {
+        var promise = new Promise(function (resolve) {
+            var query = new Parse.Query(Item);
+            query.containedIn('objectId', idArray);
+            query.find({
+                success: function (items) {
+                    var mappedItems = _mapItems(items);
+                    resolve(mappedItems);
+                },
+                error: function (err) {
+                    console.log(err.message);
+                }
+            });
         });
 
         return promise;
@@ -130,6 +149,7 @@ var database = (function () {
     return {
         getAll: getAll,
         getById: getById,
+        getByIds: getByIds,
         save: save,
         signUp: createUser,
         signIn: logUser
