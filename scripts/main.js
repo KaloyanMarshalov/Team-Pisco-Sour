@@ -35,14 +35,6 @@
                     $('#main').html(partial);
                 }
             });
-            
-            $('#submit-button').on('click', function () {
-                //var name = $('#inputName').val(),
-                //    price = $('#inputName').val(),
-                //
-                console.log('hi');
-
-            })
         });
 
         this.get('#/items/:id', function () {
@@ -58,8 +50,22 @@
                     $('#main').html(template(item));
                 });
         });
+
+        this.post('#/items', function () {
+            var params = this.params;
+
+            var item = {
+                name: params.name,
+                price: params.price,
+                imgSource: params.imgSrc,
+                description: params.desc
+            };
+
+            database.save(item);
+            this.redirect('#/items');
+        })
     });
-    
+
     $(function () {
         app.run('#/');
     })

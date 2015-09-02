@@ -10,6 +10,7 @@ var database = (function () {
             returnItem.name = item.get('name');
             returnItem.price = item.get('price');
             returnItem.imgSource = item.get('imgSource');
+            returnItem.description = item.get('description');
 
             return returnItem;
         });
@@ -65,12 +66,13 @@ var database = (function () {
             dbItem.set('name', item.name);
             dbItem.set('price', item.price);
             dbItem.set('imgSource', item.imgSource);
+            dbItem.set('description', item.description);
 
-            dbItem.save()
-                .then(function () {
-                    console.log('item saved!');
+            dbItem.save(null, {
+                success: function (dbItem) {
                     resolve(dbItem);
-                })
+                }
+            })
         });
         return promise
     }
