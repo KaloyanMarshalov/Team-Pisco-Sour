@@ -53,6 +53,13 @@
                     $('#main').html(template(item));
                 });
         });
+
+        this.get('#/login', function(){
+            templates.get('login')
+                .then(function(template){
+                    $('#main').html(template);
+                });
+        });
     });
     
     $(function () {
