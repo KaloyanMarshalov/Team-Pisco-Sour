@@ -1,6 +1,6 @@
 (function ($) {
     var app = $.sammy('#main', function () {
-        this.get('#/', function (context) {
+        this.get('#/', function () {
             //this.redirect('#/items');
             $.ajax({
                 url: 'partials/home.html',
@@ -10,7 +10,7 @@
             })
         });
 
-        this.get('#/items', function (context) {
+        this.get('#/items', function () {
             var items = {};
             database.getAll()
                 .then(function (dbItems) {

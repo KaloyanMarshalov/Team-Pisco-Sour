@@ -3,22 +3,27 @@ var database = (function () {
 
     var Item = Parse.Object.extend('Item');
 
+    function _mapItems (items) {
+        var mappedItems = items.map(function (item) {
+            var returnItem = {};
+            returnItem.id = item.id
+            returnItem.name = item.get('name');
+            returnItem.price = item.get('price');
+            returnItem.imgSource = item.get('imgSource');
+
+            return returnItem;
+        });
+
+        return mappedItems;
+    }
+
     function getAll() {
         var promise = new Promise(function (resolve, reject) {
             var query = new Parse.Query(Item);
 
             query.find({
                 success: function (items) {
-                    var mappedItems = items.map(function (item) {
-                        var returnItem = {};
-                        returnItem.id = item.id
-                        returnItem.name = item.get('name');
-                        returnItem.price = item.get('price');
-                        returnItem.imgSource = item.get('imgSource');
-
-                        return returnItem;
-                    });
-                    
+                    var mappedItems = _mapItems(items)
                     resolve(mappedItems);
                 },
                 error: function (error) {
