@@ -62,7 +62,7 @@
                 .then(function (template) {
                     $('#main').html(template(cartItems));
                 })
-        })
+        });
 
         this.post('#/items', function () {
             var params = this.params;
@@ -76,11 +76,40 @@
 
             database.save(item);
             this.redirect('#/items');
-        })
-        this.get('#/login', function(){
+        });
+
+        this.get('#/login', function () {
+            var accountName,
+                accountPassword,
+                account;
             templates.get('login')
-                .then(function(template){
+                .then(function (template) {
                     $('#main').html(template);
+                    $('#register-button').on('click', function (ev) {
+                        accountName = $('#login-name').val();
+                        accountPassword = $('#login-password').val();
+                        account = {
+                            name: accountName,
+                            password: accountPassword
+                        };
+                        console.log(account);
+                        database.signUp(account)
+                            .then(function(account){
+                                database.signIn(account);
+                            });
+                    });
+
+                    $('#login-button').on('click', function (ev) {
+                        accountName = $('#login-name').val();
+                        accountPassword = $('#login-password').val();
+                        account = {
+                            name: accountName,
+                            password: accountPassword
+                        };
+                        database.signIn(account);
+                    });
+
+                    return account;
                 });
         });
     });
