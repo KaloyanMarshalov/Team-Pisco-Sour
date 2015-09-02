@@ -1,10 +1,12 @@
-<ul>
-    {{#each this}}
-    <li>
-        <h2>
-            <a href="#/items/{{id}}">{{name}}</a>
-        </h2>
-        <p>{{price}}</p>
-    </li>
-    {{/each}}
-</ul>
+{{#grouped_each 4 this}}
+    <div class="row">
+        {{#each this}}
+            <div class="col-md-3">
+                <a href="#/items/{{id}}">
+                    <h2>{{name}}</h2>
+                    <img src="{{imgSource}}" class="img-responsive" alt="{{name}}"/>
+                </a>
+            </div>
+        {{/each}}
+    </div>
+{{/grouped_each}}
