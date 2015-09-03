@@ -9,4 +9,5 @@ $(document.body).on('click', '#addToCart', function () {
 
 $(document.body).on('click', '#clear-cart', function () {
     localStorage.setItem('cartItems', '[]');
+    window.location.replace('#/');
 })
