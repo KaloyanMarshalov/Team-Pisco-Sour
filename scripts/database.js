@@ -106,6 +106,7 @@ var database = (function () {
             user.signUp(null, {
                 success: function (user) {
                     resolve(account);
+                    window.location.replace('#/');
                     // Hooray! Let them use the app now.
                 },
                 error: function (user, error) {
@@ -127,6 +128,7 @@ var database = (function () {
                     var currentUser = Parse.User.current();
                     if (currentUser) {
                         resolve(account);
+                        window.location.replace('#/');
                     } else {
                         // show the signup or login page
                     }

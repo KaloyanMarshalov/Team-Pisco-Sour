@@ -97,7 +97,6 @@
                         database.signUp(account)
                             .then(function(account){
                                 database.signIn(account);
-                                window.location.replace('#/');
                             });
                     });
 
@@ -109,9 +108,6 @@
                             password: accountPassword
                         };
                         database.signIn(account)
-                            .then(function () {
-                                window.location.replace('#/');
-                            });
                     });
 
                     return account;
@@ -120,7 +116,7 @@
 
         this.get('#/logout', function () {
             Parse.User.logOut();
-            window.location.replace('#/');
+            window.location.replace('#/');  //so that the button resets to login/signup
         });
     });
 
