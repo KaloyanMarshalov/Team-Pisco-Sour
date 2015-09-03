@@ -6,6 +6,10 @@
                 .then(function(template){
                     $('#main').html(template);
                 });
+            templates.get('userButton')
+                .then(function (template) {
+                    $('#userButton').html(template(Parse.User.current()));
+                })
         });
 
         this.get('#/items', function () {
@@ -93,6 +97,7 @@
                         database.signUp(account)
                             .then(function(account){
                                 database.signIn(account);
+                                window.location.replace('#/');
                             });
                     });
 
@@ -103,11 +108,19 @@
                             name: accountName,
                             password: accountPassword
                         };
-                        database.signIn(account);
+                        database.signIn(account)
+                            .then(function () {
+                                window.location.replace('#/');
+                            });
                     });
 
                     return account;
                 });
+        });
+
+        this.get('#/logout', function () {
+            Parse.User.logOut();
+            window.location.replace('#/');
         });
     });
 

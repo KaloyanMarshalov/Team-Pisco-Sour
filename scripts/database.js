@@ -127,8 +127,6 @@ var database = (function () {
                     var currentUser = Parse.User.current();
                     if (currentUser) {
                         resolve(account);
-                        console.log(currentUser);
-                        console.log('WORKS');
                     } else {
                         // show the signup or login page
                     }
