@@ -8,5 +8,5 @@ $(document.body).on('click', '#addToCart', function () {
 });
 
 $(document.body).on('click', '#clear-cart', function () {
-    localStorage.removeItem('cartItems');
+    localStorage.setItem('cartItems', '[]');
 })

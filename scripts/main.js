@@ -56,7 +56,6 @@
                 .then(function (cartItems) {
                     templates.get('shopping-cart')
                         .then(function (template) {
-
                             $('#main').html(template(cartItems));
                         })
                 });
