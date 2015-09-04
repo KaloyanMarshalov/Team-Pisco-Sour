@@ -174,19 +174,19 @@ var database = (function () {
         return promise;
     }
 
-    //function search (value) {
-    //    var query = new Parse.Query(Shop);
-    //    return new Promise(function(resolve, reject) {
-    //        query.contains('name', value);
-    //        query.find()
-    //            .then(function(data) {
-    //                return _mapItems(data);
-    //            })
-    //            .then(function(data) {
-    //                resolve({shops:data});
-    //            })
-    //    })
-    //}
+    function search(value) {
+        var query = new Parse.Query(Shop);
+        return new Promise(function (resolve, reject) {
+            query.contains('name', value);
+            query.find()
+                .then(function (data) {
+                    return _mapItems(data);
+                })
+                .then(function (data) {
+                    resolve({shops: data});
+                })
+        })
+    }
 
     function addToCart(item) {
         var promise = new Promise(function (resolve, reject) {
@@ -213,8 +213,6 @@ var database = (function () {
             storageToBeUpdated = {itemIds: currentItemIds};
             storageToBeUpdated = JSON.stringify(storageToBeUpdated);
             localStorage.setItem(storageID, storageToBeUpdated);
-            console.log(currentItemIds);
-            console.log(storageToBeUpdated);
             resolve();
         });
         return promise;
@@ -242,6 +240,23 @@ var database = (function () {
         return promise;
     }
 
+    function clearCart() {
+        var promise = new Promise(function (resolve, reject) {
+            var storageID,
+                currentUser = getCurrentUser();
+            if (currentUser) {
+                storageID = currentUser.id;
+            } else {
+                storageID = DEFAULT_STORAGE_ID;
+            }
+            if (localStorage.getItem(storageID)) {
+                localStorage.removeItem(storageID);
+            }
+            resolve()
+        });
+        return promise;
+    }
+
     function getCurrentUser() {
         if (localStorage.getItem('USER_ID')) {
             return {
@@ -259,6 +274,7 @@ var database = (function () {
         getCurrent: getCurrentUser,
         getCart: getCart,
         addToCart: addToCart,
+        clearCart: clearCart,
         save: save,
         signUp: createUser,
         signIn: logUser,

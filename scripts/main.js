@@ -69,31 +69,36 @@
                 })
         });
 
-        //this.get('#/search:value', function() {
-        //    var value = this.params.value;
-        //    var html = {};
-        //    database.search(value)
-        //        .then(function (dbItems) {
-        //            html = dbItems;
-        //            var template = templates.get('items');
-        //            return template;
-        //        })
-        //        .then(function(template){
-        //            $('#main').html(template(html));
-        //        })
-        //});
+        this.get('#/search:value', function () {
+            var value = this.params.value;
+            var html = {};
+            database.search(value)
+                .then(function (dbItems) {
+                    html = dbItems;
+                    var template = templates.get('items');
+                    return template;
+                })
+                .then(function (template) {
+                    $('#main').html(template(html));
+                })
+        });
 
         this.get('#/cart', function () {
             var storageItemIds = database.getCart()
                 .then(function (storageItemIds) {
-                database.getByIds(storageItemIds)
-                    .then(function (cartItems) {
-                        templates.get('shopping-cart')
-                            .then(function (template) {
-                                $('#main').html(template(cartItems));
-                            })
-                    });
-            });
+                    database.getByIds(storageItemIds)
+                        .then(function (cartItems) {
+                            templates.get('shopping-cart')
+                                .then(function (template) {
+                                    $('#main').html(template(cartItems));
+                                })
+                                .then(function () {
+                                    $('#clear-cart').on('click',function(){
+                                        database.clearCart();
+                                    });
+                                });
+                        });
+                });
         });
 
         this.post('#/items', function () {
