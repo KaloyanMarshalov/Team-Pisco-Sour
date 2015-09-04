@@ -187,36 +187,59 @@ var database = (function () {
     //            })
     //    })
     //}
+
     function addToCart(item) {
-        var currentStorage,
-            storageID,
-            currentItemIds,
-            storageToBeUpdated,
-            currentItemId = item.id,
-            currentUser = getCurrentUser();
-        if (currentUser) {
-            storageID = currentUser.id;
-        } else {
-            storageID = DEFAULT_STORAGE_ID;
-        }
-        if (localStorage.getItem(storageID)) {
-            currentStorage = localStorage.getItem(storageID);
-            localStorage.removeItem(storageID);
-            currentStorage = JSON.parse(currentStorage);
-            currentItemIds = currentStorage.itemIds;
-        } else {
-            currentItemIds = [];
-        }
-        currentItemIds.push(currentItemId);
-        storageToBeUpdated = {itemIds: currentItemIds};
-        storageToBeUpdated = JSON.stringify(storageToBeUpdated);
-        localStorage.setItem(storageID, storageToBeUpdated);
-        console.log(currentItemIds);
-        console.log(storageToBeUpdated);
+        var promise = new Promise(function (resolve, reject) {
+            var currentStorage,
+                storageID,
+                currentItemIds,
+                storageToBeUpdated,
+                currentItemId = item.id,
+                currentUser = getCurrentUser();
+            if (currentUser) {
+                storageID = currentUser.id;
+            } else {
+                storageID = DEFAULT_STORAGE_ID;
+            }
+            if (localStorage.getItem(storageID)) {
+                currentStorage = localStorage.getItem(storageID);
+                localStorage.removeItem(storageID);
+                currentStorage = JSON.parse(currentStorage);
+                currentItemIds = currentStorage.itemIds;
+            } else {
+                currentItemIds = [];
+            }
+            currentItemIds.push(currentItemId);
+            storageToBeUpdated = {itemIds: currentItemIds};
+            storageToBeUpdated = JSON.stringify(storageToBeUpdated);
+            localStorage.setItem(storageID, storageToBeUpdated);
+            console.log(currentItemIds);
+            console.log(storageToBeUpdated);
+            resolve();
+        });
+        return promise;
     }
 
     function getCart() {
-        
+        var promise = new Promise(function (resolve, reject) {
+            var storageID,
+                currentStorage,
+                currentItemIds,
+                currentUser = getCurrentUser();
+            if (currentUser) {
+                storageID = currentUser.id;
+            } else {
+                storageID = DEFAULT_STORAGE_ID;
+            }
+            if (localStorage.getItem(storageID)) {
+                currentStorage = localStorage.getItem(storageID);
+                currentStorage = JSON.parse(currentStorage);
+                currentItemIds = currentStorage.itemIds;
+                resolve(currentItemIds);
+            }
+            resolve(null);
+        });
+        return promise;
     }
 
     function getCurrentUser() {

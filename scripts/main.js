@@ -33,12 +33,6 @@
         });
 
         this.get('#/items/create', function () {
-            $.ajax({
-                url: 'partials/create.html',
-                success: function (partial) {
-                    $('#main').html(partial);
-                }
-            });
             templates.get('create')
                 .then(function (template) {
                     $('#main').html(template);
@@ -90,16 +84,16 @@
         //});
 
         this.get('#/cart', function () {
-            var storageItemIds = database.getCart(),
-                parsedItemIds = JSON.parse(storageItemIds);
-
-            database.getByIds(parsedItemIds)
-                .then(function (cartItems) {
-                    templates.get('shopping-cart')
-                        .then(function (template) {
-                            $('#main').html(template(cartItems));
-                        })
-                });
+            var storageItemIds = database.getCart()
+                .then(function (storageItemIds) {
+                database.getByIds(storageItemIds)
+                    .then(function (cartItems) {
+                        templates.get('shopping-cart')
+                            .then(function (template) {
+                                $('#main').html(template(cartItems));
+                            })
+                    });
+            });
         });
 
         this.post('#/items', function () {
