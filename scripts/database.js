@@ -1,6 +1,6 @@
 var database = (function () {
-    Parse.initialize("ScOtySOfPiKIxOuM7WU5Huyx6whJFQAP1mNZjx2T", "qtR9xS9VmWmdu1aAlsYMrGXlVMM0Q38DyYCRZNNr");
-    //Parse.initialize("JkXEn9Qw4YUF5jfxhtBRtAPlnrbsgHfoSQajlJ5T", "bNmQ0X1xCSMkpfRq0JxCCYWLctPCpljxgMkhlu69");
+    //Parse.initialize("ScOtySOfPiKIxOuM7WU5Huyx6whJFQAP1mNZjx2T", "qtR9xS9VmWmdu1aAlsYMrGXlVMM0Q38DyYCRZNNr");
+    Parse.initialize("JkXEn9Qw4YUF5jfxhtBRtAPlnrbsgHfoSQajlJ5T", "bNmQ0X1xCSMkpfRq0JxCCYWLctPCpljxgMkhlu69");
 
     var Item = Parse.Object.extend('Item');
 
@@ -132,12 +132,9 @@ var database = (function () {
                 success: function (user) {
                     resolve(account);
                     window.location.replace('#/');
-                    // Hooray! Let them use the app now.
                 },
                 error: function (user, error) {
-                    // Show the error message somewhere and let the user try again.
-                    alert("Error: " + error.code + " " + error.message);
-                    reject();
+                    reject("Error: " + error.message);
                 }
             });
         });
@@ -152,46 +149,67 @@ var database = (function () {
                 success: function (user) {
                     var currentUser = Parse.User.current();
                     if (currentUser) {
-                        resolve(account);
+                        localStorage.setItem('USER_ID',currentUser.id);
+                        localStorage.setItem('USER_SESSION_TOKEN',currentUser._sessionToken);
+                        console.log(localStorage.getItem('USER_ID'));
+                        console.log(localStorage.getItem('USER_ID'));
                         window.location.replace('#/');
+                        resolve(getCurrentUser());
                     } else {
-                        // show the signup or login page
                     }
-
-                    resolve();
                 },
                 error: function (user, error) {
-                    // The login failed. Check error to see why.
                     console.log('Failed log in');
-                    alert("Error: " + error.code + " " + error.message);
-                    reject();
+                    reject("Error: " + error.message);
                 }
             });
         });
         return promise;
     }
 
-    function search (value) {
-        var query = new Parse.Query(Shop);
-        return new Promise(function(resolve, reject) {
-            query.contains('name', value);
-            query.find()
-                .then(function(data) {
-                    return _mapItems(data);
-                })
-                .then(function(data) {
-                    resolve({shops:data});
-                })
-        })
+    function logOutUser(){
+        var promise = new Promise(function (resolve,reject){
+            Parse.User.logOut();
+            localStorage.removeItem('USER_ID');
+            window.location.replace('#/');  //so that the button resets to login/signup
+            resolve();
+        });
+        return promise;
+    }
+
+    //function search (value) {
+    //    var query = new Parse.Query(Shop);
+    //    return new Promise(function(resolve, reject) {
+    //        query.contains('name', value);
+    //        query.find()
+    //            .then(function(data) {
+    //                return _mapItems(data);
+    //            })
+    //            .then(function(data) {
+    //                resolve({shops:data});
+    //            })
+    //    })
+    //}
+
+    function getCurrentUser(){
+        if(localStorage.getItem('USER_ID')&&localStorage.getItem('USER_SESSION_TOKEN')){
+            return {
+                id: localStorage.getItem('USER_ID')
+            };
+        } else{
+            return null;
+        }
     }
 
     return {
         getAll: getAll,
         getById: getById,
         getByIds: getByIds,
+        getCurrent:getCurrentUser,
         save: save,
         signUp: createUser,
         signIn: logUser,
+        signOut:logOutUser,
         search: search
     };
 }());

@@ -55,6 +55,7 @@
                 })
                 .then(function (template) {
                     $('#main').html(template(item));
+                    return item;
                 });
         });
 
@@ -124,7 +125,7 @@
                 });
         });
 
-        this.get('#/login', function () {
+        this.get('#/login', function (context) {
             var accountName,
                 accountPassword,
                 account;
@@ -140,9 +141,6 @@
                         };
                         console.log(account);
                         database.signUp(account)
-                            .then(function(account){
-                                database.signIn(account);
-                            });
                     });
 
                     $('#login-button').on('click', function (ev) {
@@ -153,14 +151,23 @@
                             password: accountPassword
                         };
                         database.signIn(account)
+                            .then(function(user){
+                                console.log(user);
+                                console.log(user.id);
+                                $('#log-reg-button').toggleClass('hidden');
+                                $('#log-out-button').toggleClass('hidden');
+                                console.log(localStorage.getItem('USER_ID'));
+                            });
                     });
                     return account;
                 });
         });
 
-        this.get('#/logout', function () {
-            Parse.User.logOut();
-            window.location.replace('#/');  //so that the button resets to login/signup
+        this.get('#/logout', function (context) {
+            database.signOut().then(function(){
+                $('#log-reg-button').toggleClass('hidden');
+                $('#log-out-button').toggleClass('hidden');
+                });
         });
     });
 
