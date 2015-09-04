@@ -22,6 +22,12 @@
                 })
                 .then(function (template) {
                     $('#main').html(template(items));
+                    $('#btn-search').on('click', function (ev) {
+                        ev.preventDefault(); ev.stopPropagation();
+                        var value = $('#search')[0].value;
+                        document.location = document.location.origin + '#/search/' + value;
+                    });
+
                 });
         });
 
@@ -52,6 +58,30 @@
                 });
         });
 
+        this.get('#/search/:value', function() {
+            var value = this.params.value;
+            Promise.all([data.search(value), templates.load('shops')])
+                .then(function(results) {
+                    var template = Handlebars.compile(results[1]),
+                        html = template(results[0]);
+                    $('#main').html(html);
+                })
+        });
+
+        //this.get('#/search:value', function() {
+        //    var value = this.params.value;
+        //    var html = {};
+        //    database.search(value)
+        //        .then(function (dbItems) {
+        //            html = dbItems;
+        //            var template = templates.get('items');
+        //            return template;
+        //        })
+        //        .then(function(template){
+        //            $('#main').html(template(html));
+        //        })
+        //});
+
         this.get('#/cart', function () {
             var storageItemIds = localStorage.getItem('cartItems'),
                 parsedItemIds = JSON.parse(storageItemIds);
@@ -77,6 +107,21 @@
 
             database.save(item);
             this.redirect('#/items');
+        });
+
+        this.post('#/search/:value', function () {
+            var value = this.params.value;
+            var items = {};
+            database.search(value)
+                .then(function (dbItems) {
+                    items = dbItems;
+                    var template = templates.get('items');
+                    console.log(template);
+                    return template;
+                })
+                .then(function (template) {
+                    $('#main').html(template(items));
+                });
         });
 
         this.get('#/login', function () {
@@ -109,7 +154,6 @@
                         };
                         database.signIn(account)
                     });
-
                     return account;
                 });
         });

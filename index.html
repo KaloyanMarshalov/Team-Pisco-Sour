@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>E-store</title>
     <!--<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"/>-->
+    <script src="//www.parsecdn.com/js/parse-1.5.0.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="styles/bootstrap-theme.css"/>
     <link rel="stylesheet" href="styles/app.css"/>
@@ -37,6 +38,12 @@
                             <li><a href="#/items">Items</a></li>
                             <li><a href="#/items/create">Create an Item</a></li>
                         </ul>
+                        <form class="navbar-form navbar-left" role="search">
+                            <div class="form-group">
+                                <input id="search" class="form-control" placeholder="Search" type="text">
+                            </div>
+                            <button id="btn-search" type="submit" class="btn btn-default">Submit</button>
+                        </form>
                         <ul class="nav navbar-nav navbar-right">
                             <li>
                                 <a href="#/cart">
@@ -55,7 +62,7 @@
         <main id="main">
         </main>
     </div>
-    <script src="//www.parsecdn.com/js/parse-1.5.0.min.js"></script>
+
     <!--<script src="bower_components/jquery/dist/jquery.js"></script>-->
     <!--<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>-->
     <!--<script src="bower_components/jquery-ui/jquery-ui.js"></script>-->

@@ -37,6 +37,31 @@ var database = (function () {
         return promise;
     }
 
+    function search(value) {
+        var promise = new Promise(function (resolve, reject) {
+            var query = new Parse.Query(Item);
+            query.contains('name', value);
+            query.find({
+                //.then(function (items) {
+                //    return _mapItems(items);
+                //
+                //})
+                //.then(function(data){
+                //    resolve(data);
+                //})
+                success: function (items) {
+                    var mappedItems = _mapItems(items)
+                    resolve(mappedItems);
+                },
+                error: function (error) {
+                    console.log(error.code + ' ' + error.message);
+                }
+            });
+        });
+
+        return promise;
+    }
+
     function getById(id) {
         var promise = new Promise(function (resolve, reject) {
             //TODO: refractor using Parse Queries
@@ -146,12 +171,27 @@ var database = (function () {
         return promise;
     }
 
+    function search (value) {
+        var query = new Parse.Query(Shop);
+        return new Promise(function(resolve, reject) {
+            query.contains('name', value);
+            query.find()
+                .then(function(data) {
+                    return _mapItems(data);
+                })
+                .then(function(data) {
+                    resolve({shops:data});
+                })
+        })
+    }
+
     return {
         getAll: getAll,
         getById: getById,
         getByIds: getByIds,
         save: save,
         signUp: createUser,
-        signIn: logUser
+        signIn: logUser,
+        search: search
     };
 }());
