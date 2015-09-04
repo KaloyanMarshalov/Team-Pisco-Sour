@@ -3,8 +3,9 @@ var database = (function () {
     Parse.initialize("JkXEn9Qw4YUF5jfxhtBRtAPlnrbsgHfoSQajlJ5T", "bNmQ0X1xCSMkpfRq0JxCCYWLctPCpljxgMkhlu69");
 
     var Item = Parse.Object.extend('Item');
+    const DEFAULT_STORAGE_ID = 65536;
 
-    function _mapItems (items) {
+    function _mapItems(items) {
         var mappedItems = items.map(function (item) {
             var returnItem = {};
             returnItem.id = item.id;
@@ -65,23 +66,23 @@ var database = (function () {
     function getById(id) {
         var promise = new Promise(function (resolve, reject) {
             //TODO: refractor using Parse Queries
-           getAll().then(function (items) {
-               var item;
-               items.forEach(function (itemObj) {
-                   if (itemObj.id === id) {
-                       item = itemObj;
-                   }
-               });
+            getAll().then(function (items) {
+                var item;
+                items.forEach(function (itemObj) {
+                    if (itemObj.id === id) {
+                        item = itemObj;
+                    }
+                });
 
-               if (item) {
-                   resolve(item);
-               }
-               else {
-                   reject({
-                       message: 'No such item!'
-                   });
-               }
-           });
+                if (item) {
+                    resolve(item);
+                }
+                else {
+                    reject({
+                        message: 'No such item!'
+                    });
+                }
+            });
         });
 
         return promise;
@@ -149,17 +150,13 @@ var database = (function () {
                 success: function (user) {
                     var currentUser = Parse.User.current();
                     if (currentUser) {
-                        localStorage.setItem('USER_ID',currentUser.id);
-                        localStorage.setItem('USER_SESSION_TOKEN',currentUser._sessionToken);
-                        console.log(localStorage.getItem('USER_ID'));
-                        console.log(localStorage.getItem('USER_ID'));
+                        localStorage.setItem('USER_ID', currentUser.id);
                         window.location.replace('#/');
                         resolve(getCurrentUser());
                     } else {
                     }
                 },
                 error: function (user, error) {
-                    console.log('Failed log in');
                     reject("Error: " + error.message);
                 }
             });
@@ -167,8 +164,8 @@ var database = (function () {
         return promise;
     }
 
-    function logOutUser(){
-        var promise = new Promise(function (resolve,reject){
+    function logOutUser() {
+        var promise = new Promise(function (resolve, reject) {
             Parse.User.logOut();
             localStorage.removeItem('USER_ID');
             window.location.replace('#/');  //so that the button resets to login/signup
@@ -190,13 +187,44 @@ var database = (function () {
     //            })
     //    })
     //}
+    function addToCart(item) {
+        var currentStorage,
+            storageID,
+            currentItemIds,
+            storageToBeUpdated,
+            currentItemId = item.id,
+            currentUser = getCurrentUser();
+        if (currentUser) {
+            storageID = currentUser.id;
+        } else {
+            storageID = DEFAULT_STORAGE_ID;
+        }
+        if (localStorage.getItem(storageID)) {
+            currentStorage = localStorage.getItem(storageID);
+            localStorage.removeItem(storageID);
+            currentStorage = JSON.parse(currentStorage);
+            currentItemIds = currentStorage.itemIds;
+        } else {
+            currentItemIds = [];
+        }
+        currentItemIds.push(currentItemId);
+        storageToBeUpdated = {itemIds: currentItemIds};
+        storageToBeUpdated = JSON.stringify(storageToBeUpdated);
+        localStorage.setItem(storageID, storageToBeUpdated);
+        console.log(currentItemIds);
+        console.log(storageToBeUpdated);
+    }
 
-    function getCurrentUser(){
-        if(localStorage.getItem('USER_ID')&&localStorage.getItem('USER_SESSION_TOKEN')){
+    function getCart() {
+        
+    }
+
+    function getCurrentUser() {
+        if (localStorage.getItem('USER_ID')) {
             return {
                 id: localStorage.getItem('USER_ID')
             };
-        } else{
+        } else {
             return null;
         }
     }
@@ -205,11 +233,13 @@ var database = (function () {
         getAll: getAll,
         getById: getById,
         getByIds: getByIds,
-        getCurrent:getCurrentUser,
+        getCurrent: getCurrentUser,
+        getCart: getCart,
+        addToCart: addToCart,
         save: save,
         signUp: createUser,
         signIn: logUser,
-        signOut:logOutUser,
+        signOut: logOutUser,
         search: search
     };
 }());

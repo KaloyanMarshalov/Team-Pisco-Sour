@@ -3,7 +3,7 @@
         this.get('#/', function () {
             //this.redirect('#/items');
             templates.get('home')
-                .then(function(template){
+                .then(function (template) {
                     $('#main').html(template);
                 });
             templates.get('userButton')
@@ -23,7 +23,8 @@
                 .then(function (template) {
                     $('#main').html(template(items));
                     $('#btn-search').on('click', function (ev) {
-                        ev.preventDefault(); ev.stopPropagation();
+                        ev.preventDefault();
+                        ev.stopPropagation();
                         var value = $('#search')[0].value;
                         document.location = document.location.origin + '#/search/' + value;
                     });
@@ -39,7 +40,7 @@
                 }
             });
             templates.get('create')
-                .then(function(template){
+                .then(function (template) {
                     $('#main').html(template);
                 });
         });
@@ -56,13 +57,18 @@
                 .then(function (template) {
                     $('#main').html(template(item));
                     return item;
+                })
+                .then(function (item) {
+                    $('#addToCart').on('click', function () {
+                        database.addToCart(item);
+                    });
                 });
         });
 
-        this.get('#/search/:value', function() {
+        this.get('#/search/:value', function () {
             var value = this.params.value;
             Promise.all([data.search(value), templates.load('shops')])
-                .then(function(results) {
+                .then(function (results) {
                     var template = Handlebars.compile(results[1]),
                         html = template(results[0]);
                     $('#main').html(html);
@@ -84,7 +90,7 @@
         //});
 
         this.get('#/cart', function () {
-            var storageItemIds = localStorage.getItem('cartItems'),
+            var storageItemIds = database.getCart(),
                 parsedItemIds = JSON.parse(storageItemIds);
 
             database.getByIds(parsedItemIds)
@@ -151,7 +157,7 @@
                             password: accountPassword
                         };
                         database.signIn(account)
-                            .then(function(user){
+                            .then(function (user) {
                                 console.log(user);
                                 console.log(user.id);
                                 $('#log-reg-button').toggleClass('hidden');
@@ -164,10 +170,10 @@
         });
 
         this.get('#/logout', function (context) {
-            database.signOut().then(function(){
+            database.signOut().then(function () {
                 $('#log-reg-button').toggleClass('hidden');
                 $('#log-out-button').toggleClass('hidden');
-                });
+            });
         });
     });
 
