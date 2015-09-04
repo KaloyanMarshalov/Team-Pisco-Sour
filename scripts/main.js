@@ -54,7 +54,7 @@
                 })
                 .then(function (item) {
                     $('#addToCart').on('click', function () {
-                        database.addToCart(item);
+                        utilities.addToCart(item);
                     });
                 });
         });
@@ -84,7 +84,7 @@
         });
 
         this.get('#/cart', function () {
-            var storageItemIds = database.getCart()
+            var storageItemIds = utilities.getCart()
                 .then(function (storageItemIds) {
                     database.getByIds(storageItemIds)
                         .then(function (cartItems) {
@@ -94,7 +94,7 @@
                                 })
                                 .then(function () {
                                     $('#clear-cart').on('click',function(){
-                                        database.clearCart();
+                                        utilities.clearCart();
                                     });
                                 });
                         });
@@ -122,7 +122,6 @@
                 .then(function (dbItems) {
                     items = dbItems;
                     var template = templates.get('items');
-                    console.log(template);
                     return template;
                 })
                 .then(function (template) {
@@ -144,7 +143,6 @@
                             name: accountName,
                             password: accountPassword
                         };
-                        console.log(account);
                         database.signUp(account)
                     });
 
@@ -157,11 +155,8 @@
                         };
                         database.signIn(account)
                             .then(function (user) {
-                                console.log(user);
-                                console.log(user.id);
                                 $('#log-reg-button').toggleClass('hidden');
                                 $('#log-out-button').toggleClass('hidden');
-                                console.log(localStorage.getItem('USER_ID'));
                             });
                     });
                     return account;
