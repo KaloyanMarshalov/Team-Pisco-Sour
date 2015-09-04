@@ -235,7 +235,7 @@ var database = (function () {
                 currentItemIds = currentStorage.itemIds;
                 resolve(currentItemIds);
             }
-            resolve(null);
+            resolve([]);
         });
         return promise;
     }
